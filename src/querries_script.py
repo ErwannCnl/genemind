@@ -3,6 +3,10 @@ from xml.etree.ElementTree import Element, SubElement, tostring
 from collections import defaultdict
 from Bio import Entrez
 import xml.etree.ElementTree as ET
+import re
+from typing import Dict, List, Optional
+import pandas as pd
+from collections import OrderedDict
 
 # Let the llm decide what attributes it will querry according to the concept we gave him
 
@@ -42,6 +46,8 @@ def parse_rows(tsv, headers):
         cols = line.split("\t")
         rows.append({h: (cols[i] if i < len(cols) else "") for i, h in enumerate(headers)})
     return rows
+
+
 
 def filter_rows(tsv, attributes:list):
     
@@ -87,19 +93,7 @@ def filter_rows(tsv, attributes:list):
     return final_rows
         
 def filter_attributes(proposed_attributes):
-    possible_attributes=["ensembl_gene_id",
-            "go_id",
-            "external_gene_name",
-            "name_1006",
-            "ensembl_gene_id",
-            "chromosome_name",
-            "start_position",
-            "end_position",
-            "strand",
-            "name_1006", 
-            "namespace_1003",
-            "go_linkage_type"
-            ]
+    possible_attributes = pd.read_csv("../data/attributes.csv")["name"].to_list()
     
     final_attr = []
     for attr in proposed_attributes:
@@ -109,21 +103,25 @@ def filter_attributes(proposed_attributes):
     return final_attr
 
 
-def call_querry(attributes, filters:dict, dataset:str="hsapiens_gene_ensembl"):
+def call_querry_biomart(attributes, filters:dict, dataset:str="hsapiens_gene_ensembl"):
     
     attr = filter_attributes(proposed_attributes=attributes)
     
+    if "external_gene_name" not in attr:
+        attr.append("external_gene_name")
 
     
-    targets = ["go_id", "go_linkage_type", "name_1006"]
+    targets = ["go_id", "go_linkage_type", "name_1006", "namespace_1003"]
     if any(t in attr for t in targets):
-        if "go_linkage_type" not in attributes:
+        if "go_id" not in attr:
+            attr.append("go_id")
+        if "go_linkage_type" not in attr:
             attr.append("go_linkage_type")
-        if "name_1006" not in attributes:
+        if "name_1006" not in attr:
             attr.append("name_1006")
-        if "namespace_1003" not in attributes:
+        if "namespace_1003" not in attr:
             attr.append("namespace_1003")
-            
+        
         tsv = biomart_query(
             attributes=attr,
             filters=filters,
@@ -142,34 +140,10 @@ def call_querry(attributes, filters:dict, dataset:str="hsapiens_gene_ensembl"):
 
 
 
-# Execution example
-if __name__ == "__main__":
-    print()
-    output = call_querry(attributes=["ensembl_gene_id",
-                            "go_id",
-                            "external_gene_name",
-                            "name_1006",
-                            "ensembl_gene_id",
-                            "chromosome_name",
-                            "start_position",
-                            "end_position",
-                            "strand",
-                            "name_1006", 
-                            "namespace_1003",
-                            "go_linkage_type"
-                            ],
-                filters={"external_gene_name": ["TLR4", "NOTCH1"]})
-    
-    print(type(output))
-    print(len(output))
-
-
-
-
 
 def get_gene_info(gene_symbol: str, organism: str = "Homo sapiens") -> str:
     """Fetch NCBI gene summary and representative expression info as text."""
-    Entrez.email = "tom.luijts@ugent.be"
+    Entrez.email = "e.chinal@aviwell.fr"
     # Step 1: Search for gene ID
     handle = Entrez.esearch(db="gene", term=f"{gene_symbol}[Gene Name] AND {organism}[Organism]")
     record = Entrez.read(handle)
@@ -235,7 +209,111 @@ def get_gene_info(gene_symbol: str, organism: str = "Homo sapiens") -> str:
     return "\n".join(output_lines)
 
 
-# # Example usage
-# if __name__ == "__main__":
-#     text_output = get_gene_info("TP53")
-#     print(text_output)
+
+def group_by_gene_dynamic(
+    rows: list[dict],
+    gene_keys: tuple[str, ...] = ("ensembl_gene_id", "external_gene_name"),
+    always_list_fields: set[str] | None = None,):
+    
+    """
+    Agregate all the lines in a single dict from the same gene,
+    building lists if attributes has different values.
+
+    - rows : list of dicts
+    - gene_keys : fields that identify a gene
+    - always_list_fields : fields that we always want to be a list
+
+    Rendu :
+      - One dict by gene
+      - for each field, either a scalar if on value,
+        or a list if more than one value
+    """
+    if always_list_fields is None:
+        always_list_fields = set()
+
+    grouped = OrderedDict()
+
+    for r in rows:
+        # key of the gene 
+        key = tuple(r.get(k) for k in gene_keys)
+        if key not in grouped:
+            # First occurence of the gene : cloning the raw
+            first = dict(r)
+            first["_seen"] = {k: set([v]) for k, v in r.items() if v not in (None, "")}
+            grouped[key] = first
+            continue
+
+        g = grouped[key]
+        seen = g["_seen"]
+
+        # Fusion field per field
+        for k, v in r.items():
+            if k in gene_keys:
+                # Dont change the regroup keys
+                continue
+            if v in (None, ""):
+                # ignore empty values
+                continue
+
+            if k not in g:
+                # new field : simple copy
+                g[k] = v if k not in always_list_fields else [v]
+                seen[k] = {v}
+            else:
+                # field already here
+                if isinstance(g[k], list):
+                    # already a list -> add it if its new
+                    if v not in seen.setdefault(k, set()):
+                        g[k].append(v)
+                        seen[k].add(v)
+                else:
+                    # scalar -> compare, if not the same, put it in a list
+                    if k in always_list_fields:
+                        if v not in {g[k]}:
+                            g[k] = [g[k], v]
+                            seen[k] = set(g[k])
+                    else:
+                        if v != g[k]:
+                            prev = g[k]
+                            g[k] = [prev, v] if v != prev else [prev]
+                            seen[k] = set(g[k])
+
+    # Cleaning : Gets rid off the inter "_seen"
+    out = []
+    for g in grouped.values():
+        g.pop("_seen", None)
+        out.append(g)
+    return out
+
+
+def fill_with_ncbi(biomart:dict):
+    for gene in biomart:
+        gene["ncbi"] = get_gene_info(gene["external_gene_name"])
+    return biomart
+
+# Execution example
+if __name__ == "__main__":
+    
+    
+    output = call_querry_biomart(attributes=["ensembl_gene_id",
+                                            "go_id",
+                                            "external_gene_name",
+                                            "name_1006",
+                                            "ensembl_gene_id",
+                                            "chromosome_name",
+                                            "start_position",
+                                            "end_position",
+                                            "strand",
+                                            "name_1006", 
+                                            "namespace_1003",
+                                            "go_linkage_type",
+                                            "description"
+                                            ],
+                                filters={"external_gene_name": ["TLR4", "NOTCH1"]})
+    
+    output = group_by_gene_dynamic(output)
+    
+    output = fill_with_ncbi(output)
+    
+    print(output)
+    
