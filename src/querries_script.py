@@ -1,6 +1,8 @@
 import requests
 from xml.etree.ElementTree import Element, SubElement, tostring
 from collections import defaultdict
+from Bio import Entrez
+import xml.etree.ElementTree as ET
 
 # Let the llm decide what attributes it will querry according to the concept we gave him
 
@@ -150,3 +152,80 @@ if __name__ == "__main__":
     
     print(type(output))
     print(len(output))
+
+
+
+
+
+def get_gene_info(gene_symbol: str, organism: str = "Homo sapiens") -> str:
+    """Fetch NCBI gene summary and representative expression info as text."""
+    Entrez.email = "tom.luijts@ugent.be"
+    # Step 1: Search for gene ID
+    handle = Entrez.esearch(db="gene", term=f"{gene_symbol}[Gene Name] AND {organism}[Organism]")
+    record = Entrez.read(handle)
+    handle.close()
+
+    gene_ids = record["IdList"]
+    if not gene_ids:
+        return f"No gene found for {gene_symbol} in {organism}."
+
+    gene_id = gene_ids[0]
+
+    # Step 2: Fetch full gene record (XML)
+    handle = Entrez.efetch(db="gene", id=gene_id, retmode="xml")
+    gene_data = handle.read()
+    handle.close()
+
+    # Step 3: Parse XML
+    root = ET.fromstring(gene_data)
+
+    output_lines = [f"Gene: {gene_symbol} ({organism})"]
+
+    # --- Extract Summary ---
+    summary = root.find(".//Entrezgene_summary")
+    if summary is not None:
+        output_lines.append("\n--- Summary ---")
+        output_lines.append(summary.text.strip())
+    else:
+        output_lines.append("\n--- Summary ---")
+        output_lines.append("No summary available.")
+
+    # --- Extract Representative Expression ---
+    tissues = []
+    expr_category = None
+    expr_summary = None
+
+    for gc in root.findall(".//Gene-commentary"):
+        heading = gc.find("Gene-commentary_heading")
+        if heading is not None and heading.text == "Representative Expression":
+            for comment in gc.findall(".//Gene-commentary"):
+                label = comment.find("Gene-commentary_label")
+                if label is not None:
+                    if label.text == "Tissue List":
+                        tissue_text = comment.find("Gene-commentary_text").text.strip()
+                        tissues = [t.strip() for t in tissue_text.split(";") if t.strip()]
+                    elif label.text == "Category":
+                        expr_category = comment.find("Gene-commentary_text").text.strip()
+                    elif label.text == "Text Summary":
+                        expr_summary = comment.find("Gene-commentary_text").text.strip()
+
+    # Add to output
+    if expr_summary or expr_category or tissues:
+        output_lines.append("\n--- Representative Expression ---")
+        if expr_summary:
+            output_lines.append(f"Summary: {expr_summary}")
+        if expr_category:
+            output_lines.append(f"Category: {expr_category}")
+        if tissues:
+            output_lines.append("Tissues: " + ", ".join(tissues))
+    else:
+        output_lines.append("\n--- Representative Expression ---")
+        output_lines.append("No expression info available.")
+
+    return "\n".join(output_lines)
+
+
+# # Example usage
+# if __name__ == "__main__":
+#     text_output = get_gene_info("TP53")
+#     print(text_output)
