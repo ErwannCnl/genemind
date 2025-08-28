@@ -44,13 +44,7 @@ def parse_rows(tsv, headers):
     return rows
 
 def filter_rows(tsv, attributes:list):
-    if "go_linkage_type" not in attributes:
-        attributes.append("go_linkage_type")
-    if "name_1006" not in attributes:
-        attributes.append("name_1006")
-    if "namespace_1003" not in attributes:
-        attributes.append("namespace_1003")
-        
+    
     rows = parse_rows(tsv, headers=attributes)
 
     keep_domains = {"biological_process"} 
@@ -119,20 +113,36 @@ def call_querry(attributes, filters:dict, dataset:str="hsapiens_gene_ensembl"):
     
     attr = filter_attributes(proposed_attributes=attributes)
     
-    tsv = biomart_query(
-        attributes=attr,
-        filters=filters,
-        dataset=dataset
-    )
+
     
     targets = ["go_id", "go_linkage_type", "name_1006"]
-    if any(t in attributes for t in targets):
-        final_rows = filter_rows(tsv, attributes)
+    if any(t in attr for t in targets):
+        if "go_linkage_type" not in attributes:
+            attr.append("go_linkage_type")
+        if "name_1006" not in attributes:
+            attr.append("name_1006")
+        if "namespace_1003" not in attributes:
+            attr.append("namespace_1003")
+            
+        tsv = biomart_query(
+            attributes=attr,
+            filters=filters,
+            dataset=dataset
+        )
+        final_rows = filter_rows(tsv, attr)
         return final_rows
+    
     else:
-        return parse_rows(tsv, headers=attributes)
+        tsv = biomart_query(
+            attributes=attr,
+            filters=filters,
+            dataset=dataset
+        )
+        return parse_rows(tsv, headers=attr)[1:]
 
 
+
+# Execution example
 if __name__ == "__main__":
     print()
     output = call_querry(attributes=["ensembl_gene_id",
