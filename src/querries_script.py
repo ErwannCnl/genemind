@@ -123,11 +123,12 @@ def call_querry(attributes, filters:dict, dataset:str="hsapiens_gene_ensembl"):
         dataset=dataset
     )
     
-    if "go_id" in attributes:
+    targets = ["go_id", "go_linkage_type", "name_1006"]
+    if any(t in attributes for t in targets):
         final_rows = filter_rows(tsv, attributes)
         return final_rows
     else:
-        return tsv
+        return parse_rows(tsv, headers=attributes)
 
 
 if __name__ == "__main__":
