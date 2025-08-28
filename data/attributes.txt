@@ -1,0 +1,215 @@
+name,description
+ensembl_gene_id,Gene stable ID
+ensembl_gene_id_version,Gene stable ID version
+ensembl_transcript_id,Transcript stable ID
+ensembl_transcript_id_version,Transcript stable ID version
+ensembl_peptide_id,Protein stable ID
+ensembl_peptide_id_version,Protein stable ID version
+ensembl_exon_id,Exon stable ID
+description,Gene description
+chromosome_name,Chromosome/scaffold name
+start_position,Gene start (bp)
+end_position,Gene end (bp)
+strand,Strand
+band,Karyotype band
+transcript_start,Transcript start (bp)
+transcript_end,Transcript end (bp)
+transcription_start_site,Transcription start site (TSS)
+transcript_length,Transcript length (including UTRs and CDS)
+transcript_tsl,Transcript support level (TSL)
+transcript_gencode_basic,GENCODE basic annotation
+transcript_primary_basic,GENCODE primary annotation
+transcript_appris,APPRIS annotation
+transcript_is_canonical,Ensembl Canonical
+transcript_mane_select,RefSeq match transcript (MANE Select)
+transcript_mane_plus_clinical,RefSeq match transcript (MANE Plus Clinical)
+external_gene_name,Gene name
+external_gene_source,Source of gene name
+external_transcript_name,Transcript name
+external_transcript_source_name,Source of transcript name
+transcript_count,Transcript count
+percentage_gene_gc_content,Gene % GC content
+gene_biotype,Gene type
+transcript_biotype,Transcript type
+source,Source (gene)
+transcript_source,Source (transcript)
+version,Version (gene)
+transcript_version,Version (transcript)
+peptide_version,Version (protein)
+external_synonym,Gene Synonym
+phenotype_description,Phenotype description
+source_name,Source name
+study_external_id,Study external reference
+strain_name,Strain name
+strain_gender,Strain gender
+p_value,P value
+go_id,GO term accession
+name_1006,GO term name
+definition_1006,GO term definition
+go_linkage_type,GO term evidence code
+namespace_1003,GO domain
+goslim_goa_accession,GOSlim GOA Accession(s)
+goslim_goa_description,GOSlim GOA Description
+biogrid,BioGRID Interaction data, The General Repository for Interaction Datasets ID
+ccds,CCDS ID
+chembl,ChEMBL ID
+dbass3_name,DataBase of Aberrant 3' Splice Sites name
+dbass3_id,DataBase of Aberrant 3' Splice Sites ID
+dbass5_name,DataBase of Aberrant 5' Splice Sites name
+dbass5_id,DataBase of Aberrant 5' Splice Sites ID
+entrezgene_trans_name,EntrezGene transcript name ID
+embl,European Nucleotide Archive ID
+arrayexpress,Expression Atlas ID
+genecards,GeneCards ID
+hgnc_id,HGNC ID
+hgnc_symbol,HGNC symbol
+hpa_id,Human Protein Atlas ID
+hpa_accession,Human Protein Atlas accession
+protein_id,INSDC protein ID
+ens_lrg_gene,LRG display in Ensembl gene ID
+ens_lrg_transcript,LRG display in Ensembl transcript ID
+merops,MEROPS - the Peptidase Database ID
+mim_gene_accession,MIM gene accession
+mim_gene_description,MIM gene description
+mim_morbid_description,MIM morbid description
+mim_morbid_accession,MIM morbid accession
+mirbase_id,miRBase ID
+mirbase_accession,miRBase accession
+mirbase_trans_name,miRBase transcript name ID
+entrezgene_description,NCBI gene (formerly Entrezgene) description
+entrezgene_accession,NCBI gene (formerly Entrezgene) accession
+entrezgene_id,NCBI gene (formerly Entrezgene) ID
+pdb,PDB ID
+reactome,Reactome ID
+reactome_gene,Reactome gene ID
+reactome_transcript,Reactome transcript ID
+refseq_mrna,RefSeq mRNA ID
+refseq_mrna_predicted,RefSeq mRNA predicted ID
+refseq_ncrna,RefSeq ncRNA ID
+refseq_ncrna_predicted,RefSeq ncRNA predicted ID
+refseq_peptide,RefSeq peptide ID
+refseq_peptide_predicted,RefSeq peptide predicted ID
+rfam,RFAM ID
+rfam_trans_name,RFAM transcript name ID
+rnacentral,RNAcentral ID
+hgnc_trans_name,Transcript name ID
+ucsc,UCSC Stable ID
+uniparc,UniParc ID
+uniprot_gn_id,UniProtKB Gene Name ID
+uniprot_gn_symbol,UniProtKB Gene Name symbol
+uniprot_isoform,UniProtKB isoform ID
+uniprotswissprot,UniProtKB/Swiss-Prot ID
+uniprotsptrembl,UniProtKB/TrEMBL ID
+wikigene_name,WikiGene name
+wikigene_description,WikiGene description
+wikigene_id,WikiGene ID
+affy_hc_g110,AFFY HC G110 probe
+affy_hg_focus,AFFY HG Focus probe
+affy_hg_u133a_2,AFFY HG U133A 2 probe
+affy_hg_u133b,AFFY HG U133B probe
+affy_hg_u133_plus_2,AFFY HG U133 Plus 2 probe
+affy_hg_u95a,AFFY HG U95A probe
+affy_hg_u95av2,AFFY HG U95Av2 probe
+affy_hg_u95b,AFFY HG U95B probe
+affy_hg_u95c,AFFY HG U95C probe
+affy_hg_u95d,AFFY HG U95D probe
+affy_hg_u95e,AFFY HG U95E probe
+affy_hta_2_0,AFFY HTA 2 0 probe
+affy_ht_hg_u133_plus_pm,AFFY HT HG U133 Plus PM probe
+affy_huex_1_0_st_v2,AFFY HuEx 1 0 st v2 probe
+affy_hugenefl,AFFY HuGeneFL probe
+affy_hugene_1_0_st_v1,AFFY HuGene 1 0 st v1 probe
+affy_hugene_2_0_st_v1,AFFY HuGene 2 0 st v1 probe
+affy_hugene_2_1_st_v1,AFFY HuGene 2 1 st v1 probe
+affy_primeview,AFFY PrimeView probe
+affy_u133_x3p,AFFY U133 X3P probe
+agilent_cgh_44b,AGILENT CGH 44b probe
+agilent_gpl19072,AGILENT GPL19072 probe
+agilent_gpl26966,AGILENT GPL26966 probe
+agilent_gpl6848,AGILENT GPL6848 probe
+agilent_sureprint_g3_ge_8x60k,AGILENT SurePrint G3 GE 8x60k probe
+agilent_sureprint_g3_ge_8x60k_v2,AGILENT SurePrint G3 GE 8x60k v2 probe
+agilent_wholegenome,AGILENT WholeGenome probe
+agilent_wholegenome_4x44k_v1,AGILENT WholeGenome 4x44k v1 probe
+agilent_wholegenome_4x44k_v2,AGILENT WholeGenome 4x44k v2 probe
+codelink_codelink,CODELINK CODELINK probe
+illumina_humanref_8_v3,ILLUMINA HumanRef 8 V3 probe
+illumina_humanwg_6_v3,ILLUMINA HumanWG 6 V3 probe
+phalanx_onearray,PHALANX OneArray probe
+cdd,CDD ID
+cdd_start,CDD start
+cdd_end,CDD end
+gene3d,Gene3D ID
+gene3d_start,Gene3D start
+gene3d_end,Gene3D end
+hamap,HAMAP ID
+hamap_start,HAMAP start
+hamap_end,HAMAP end
+ncbifam,NCBIFAM ID
+ncbifam_start,NCBIFAM start
+ncbifam_end,NCBIFAM end
+hmmpanther,PANTHER ID
+hmmpanther_start,PANTHER start
+hmmpanther_end,PANTHER end
+pfam,Pfam ID
+pfam_start,Pfam start
+pfam_end,Pfam end
+pirsf,PIRSF ID
+pirsf_start,PIRSF start
+pirsf_end,PIRSF end
+prints,Prints ID
+prints_start,Prints start
+prints_end,Prints end
+scanprosite,PROSITE patterns ID
+scanprosite_start,PROSITE patterns start
+scanprosite_end,PROSITE patterns end
+pfscan,PROSITE profiles ID
+pfscan_start,PROSITE profiles start
+pfscan_end,PROSITE profiles end
+sfld,SFLD ID
+sfld_start,SFLD start
+sfld_end,SFLD end
+smart,SMART ID
+smart_start,SMART start
+smart_end,SMART end
+superfamily,Superfamily ID
+superfamily_start,Superfamily start
+superfamily_end,Superfamily end
+tigrfam,TIGRFAM ID
+tigrfam_start,TIGRFAM start
+tigrfam_end,TIGRFAM end
+interpro,Interpro ID
+interpro_short_description,Interpro Short Description
+interpro_description,Interpro Description
+interpro_start,Interpro start
+interpro_end,Interpro end
+alphafold,AFDB-ENSP mappings
+alphafold_start,AFDB-ENSP mappings start
+alphafold_end,AFDB-ENSP mappings end
+mobidblite,MobiDB lite
+mobidblite_start,MobiDB lite start
+mobidblite_end,MobiDB lite end
+ncoils,Coiled-coils (Ncoils)
+ncoils_start,Coiled-coils (Ncoils) start
+ncoils_end,Coiled-coils (Ncoils) end
+phobius,Phobius
+phobius_start,Phobius start
+phobius_end,Phobius end
+seg,Low complexity (Seg)
+seg_start,Low complexity (Seg) start
+seg_end,Low complexity (Seg) end
+sifts_import,PDB-ENSP mappings
+sifts_import_start,PDB-ENSP mappings start
+sifts_import_end,PDB-ENSP mappings end
+signalp,Cleavage site (Signalp)
+signalp_start,Cleavage site (Signalp) start
+signalp_end,Cleavage site (Signalp) end
+signalp_gn,SignalP_GRAM_NEGATIVE
+signalp_gn_start,SignalP_GRAM_NEGATIVE start
+signalp_gn_end,SignalP_GRAM_NEGATIVE end
+signalp_gp,SignalP_GRAM_POSITIVE
+signalp_gp_start,SignalP_GRAM_POSITIVE start
+signalp_gp_end,SignalP_GRAM_POSITIVE end
+tmhmm,Transmembrane helices
+tmhmm_start,Transmembrane helices start
+tmhmm_end,Transmembrane helices end
