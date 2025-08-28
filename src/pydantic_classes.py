@@ -2,6 +2,24 @@
 from typing import List, Optional
 from pydantic import BaseModel, Field
 
+# Define Pydantic class for input genes and context
+class StudyExtraction(BaseModel):
+    genes: List[str] = Field(
+        description="List of gene symbols mentioned in the text, normalized to official HGNC/NCBI-style symbols if possible."
+    )
+    organism: Optional[str] = Field(
+        description="Scientific name (binomial) of the organism (e.g., 'Homo sapiens', 'Mus musculus')."
+    )
+    field_of_study: Optional[str] = Field(
+        description="High-level biomedical domain, e.g., 'oncology', 'cancer genomics', 'neuroscience', 'immunology', 'microbiology'."
+    )
+    organ: Optional[str] = Field(
+        description="Primary organ or tissue referenced (e.g., 'brain', 'liver', 'blood')."
+    )
+    analysis_type: Optional[str] = Field(
+        description="Concise description of the analysis performed, e.g., 'differential expression', 'mutation enrichment', 'GWAS', 'copy-number analysis', 'metagenomic profiling'."
+    )
+
 class Standard_gene(BaseModel):
     gene_name: str = Field(description="Official HGNC gene symbol, one per gene")
     start: int = Field(description="start location of the gene")
