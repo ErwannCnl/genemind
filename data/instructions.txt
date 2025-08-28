@@ -1,0 +1,6 @@
+Usage: $python gene_popularity_count.py "AKT3"
+>> 123
+
+Source file from: https://github.com/pkerpedjiev/gene-citation-counts
+Note: no longer maintained, current to 2017
+Todo: replace with alternative to parse ftp://ftp.ncbi.nlm.nih.gov/gene/DATA/
