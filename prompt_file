@@ -1,0 +1,23 @@
+I have a list of genes identified from mutational analysis in [cancer type, e.g. glioblastoma]. These genes were found to be significantly more mutated than expected by chance. Please generate a structured report with the following elements:
+
+## Gene-specific features (for each gene):
+- Gene name
+- Chromosome/location/plasmid → database retrieval for consistency
+- Normal biological function
+- Disease implications
+- Cellular compartments
+- Interactors (if any)
+
+## Context-specific features (specific to [cancer type]):
+- Which of the listed genes are most commonly implicated in this cancer
+- Known biological pathways or hallmarks of this cancer subtype that these genes converge on
+- Evidence from TCGA, COSMIC, or other large-scale cancer studies
+
+## Overall collection-wide insights:
+- Common functional themes across the gene set (e.g., DNA repair, cell cycle, receptor signaling)
+- Implications for tumor biology in [cancer type]
+- Potential biomarkers for classification, prognosis, or therapy
+- Broader significance: how these mutations may reshape current understanding of the disease
+
+
+The output should be structured with clear headings for each gene, followed by sections for context-specific insights and an integrated overview of the gene set as a whole. Please keep the language concise, scientific, and suitable for inclusion in a research report."
