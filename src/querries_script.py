@@ -3,12 +3,12 @@ from xml.etree.ElementTree import Element, SubElement, tostring
 from collections import defaultdict
 from Bio import Entrez
 import xml.etree.ElementTree as ET
-import re
-from typing import Dict, List, Optional
 import pandas as pd
 from collections import OrderedDict
+import pandas as pd
 
 # Let the llm decide what attributes it will querry according to the concept we gave him
+
 
 def biomart_query(attributes, filters=None, dataset=None,
                   host="https://www.ensembl.org",
@@ -38,6 +38,8 @@ def biomart_query(attributes, filters=None, dataset=None,
     r = requests.post(url, data={"query": xml_query}, timeout=120)
     r.raise_for_status()
     return r.text  # TSV/CSV
+
+
 
 
 def parse_rows(tsv, headers):
@@ -93,7 +95,7 @@ def filter_rows(tsv, attributes:list):
     return final_rows
         
 def filter_attributes(proposed_attributes):
-    possible_attributes = pd.read_csv("../data/attributes.csv")["name"].to_list()
+    possible_attributes = pd.read_csv("data/attributes.csv")["name"].to_list()
     
     final_attr = []
     for attr in proposed_attributes:
@@ -105,7 +107,8 @@ def filter_attributes(proposed_attributes):
 
 def call_querry_biomart(attributes, filters:dict, dataset:str="hsapiens_gene_ensembl"):
     
-    attr = filter_attributes(proposed_attributes=attributes)
+    #attr = filter_attributes(proposed_attributes=attributes)
+    attr = attributes
     
     if "external_gene_name" not in attr:
         attr.append("external_gene_name")
@@ -121,6 +124,8 @@ def call_querry_biomart(attributes, filters:dict, dataset:str="hsapiens_gene_ens
             attr.append("name_1006")
         if "namespace_1003" not in attr:
             attr.append("namespace_1003")
+        if "enensembl_gene_id" not in attr:
+            attr.append("ensembl_gene_id")
         
         tsv = biomart_query(
             attributes=attr,
@@ -290,6 +295,7 @@ def fill_with_ncbi(biomart:dict):
     for gene in biomart:
         gene["ncbi"] = get_gene_info(gene["external_gene_name"])
     return biomart
+
 
 # Execution example
 if __name__ == "__main__":
