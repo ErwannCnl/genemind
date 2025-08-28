@@ -7,6 +7,7 @@ requires-python = ">=3.11"
 dependencies = [
     "jupyter>=1.1.1",
     "langchain>=0.3.27",
+    "langchain-google-genai>=2.1.10",
     "matplotlib>=3.10.5",
     "mcp>=1.13.1",
     "numpy>=2.3.2",
