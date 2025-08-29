@@ -1,3 +1,4 @@
+from pydantic import BaseModel
 def format_genes(gene_list):
     """
     Pretty-print gene dictionaries with external_gene_name as the title
