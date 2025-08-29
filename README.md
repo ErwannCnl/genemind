@@ -4,7 +4,7 @@
 
 This project was made in 1 day during the VIB Machine Learning and AI Summer School 2025.
 
-## Installation
+## Installation (Linux)
 
 GeneMind requires the **UV package manager**. You can install it following the instructions [here](https://docs.astral.sh/uv/#installation).  
 
