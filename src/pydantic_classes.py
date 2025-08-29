@@ -19,6 +19,9 @@ class StudyExtraction(BaseModel):
     analysis_type: Optional[str] = Field(
         description="Concise description of the analysis performed, e.g., 'differential expression', 'mutation enrichment', 'GWAS', 'copy-number analysis', 'metagenomic profiling'."
     )
+    GSEA: bool = Field(default=False, 
+                       description="Whether the user mentions that a GSEA is needed on the gene set. If no mention, keep it False.")
+
 
 class Standard_gene(BaseModel):
     gene_name: str = Field(description="Official gene symbol, one per gene")
