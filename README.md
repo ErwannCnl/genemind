@@ -2,7 +2,7 @@
 
 **GeneMind** is a pipeline that leverages large language models (LLMs) to analyze a given group of genes within a specific research context.  
 
-**Disclaimer**: This project was made in 1 day during the VIB Machine Learning and AI Summer School 2025.
+**Disclaimer**: This project was coded in 1 day during the [VIB Machine Learning and AI Summer School 2025](https://www.vibconferences.be/events/machine-learning-and-ai-summer-school).
 
 ## Installation (Linux)
 ### Install UV
