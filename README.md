@@ -49,16 +49,10 @@ curl "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:g
   }'
 ```
 
-Create in the root of this project a new file called `.env` and add the following line:
+Create in the root of this project a new file called `.env` with your google API key by typing:
 
 ```
-GOOGLE_API_KEY=YOUR_API_KEY
-```
-
-or type
-
-```
-cat "GOOGLE_API_KEY=YOUR_API_KEY" > .env
+echo "GOOGLE_API_KEY=YOUR_API_KEY" > .env
 ```
 
 ## Usage
