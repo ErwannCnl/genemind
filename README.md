@@ -16,7 +16,7 @@ uv sync
 source .venv/bin/activate
 ```
 ### Getting Gemini API key
-
+Genemind uses Gemini 2.5 as LLM. You need an API key to connect to the LLM hosted by Google.
 Google offer the possibility to use its Gemini models for free within a certain quota. To consult the quota see [here](https://ai.google.dev/gemini-api/docs/rate-limits).
 
 In order to use the Gemini API, however, you need to get an API key. To get the API key, you need to go to [Google AI Studio](https://ai.google.dev/aistudio) and click the "Get API key"
