@@ -93,6 +93,9 @@ When finished, this will create a new pdf file called `gene_report_from_text.pdf
 > [!NOTE]
 > Sometimes the `main.py` script get stuck after the first step (after it printed `parsed input`). This means the BioMart API is taking a long time to respond. After ~5 minutes you probably won't get a result and it might better to cancel.
 > Fixes include chosing different genes or a lower number of input genes.
+
+> [!NOTE]
+> Disclaimer: We are not responsible for inaccuracies or LLM hallucinations! Double check all the output yourself before you take it as truth.
 ---
 
 
