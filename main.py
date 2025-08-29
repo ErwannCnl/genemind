@@ -59,7 +59,7 @@ parsed_input = parsing_llm.invoke({"paragraph": paragraph})
 #convert to JSON string
 json_output = parsed_input.model_dump_json(indent=2)
 # print(json_output)
-
+print("parsed input")
 #next step - inject the json to the LLM to determine attributes to fetch from BioMart
 from src.querries_script import group_by_gene_dynamic, fill_with_ncbi, call_querry_biomart
 from src.print_gene import format_genes
@@ -75,7 +75,7 @@ output = group_by_gene_dynamic(output)
 output = fill_with_ncbi(output)
 
 # print(format_genes(output))
-
+print("got biomart result")
 from src.tools import enrichr_query
 if parsed_input.GSEA: 
     tool_results = enrichr_query(parsed_input.genes)
@@ -96,7 +96,7 @@ from src.gene_lookup import _format_popularity_block
 file = "data/all_gene_counts.tsv"
 popularity_block = _format_popularity_block(file, parsed_input.genes)
 #print(popularity_block)
-
+print("done GSEA")
 from langchain_core.output_parsers import StrOutputParser
 
 text = str(output)
@@ -120,7 +120,8 @@ prompt = ChatPromptTemplate.from_messages([
 chain = prompt | llm | StrOutputParser()
 response = chain.invoke({"text": text, "input_g": parsed_input.genes, "context": parsed_input.field_of_study, "analyses": parsed_input.analysis_type, "organism": parsed_input.organism, "popularity_block": popularity_block})
 
+print("got summary")
+from src.print_gene import texts_and_markdown_to_pdf
 
-from src.print_gene import texts_and_markdown_to_pdf, markdown_to_story
-
-texts_and_markdown_to_pdf([output], response, "gene_report_from_text.pdf")
+texts_and_markdown_to_pdf([format_genes(output)], response, "gene_report_from_text.pdf")
+print("done")
