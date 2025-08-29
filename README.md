@@ -5,9 +5,13 @@
 This project was made in 1 day during the VIB Machine Learning and AI Summer School 2025.
 
 ## Installation (Linux)
+### Install UV
 
-GeneMind requires the **UV package manager**. You can install it following the instructions [here](https://docs.astral.sh/uv/#installation).  
+GeneMind requires the **UV package manager**. You can install it following the instructions [here](https://docs.astral.sh/uv/#installation).
 
+Alternatively, UV is also available from Conda-forge [here](https://anaconda.org/conda-forge/uv).
+
+### Clone the GitHub
 Clone the repository and set up the environment:
 
 ```bash
@@ -17,6 +21,7 @@ uv python pin 3.11
 uv sync
 source .venv/bin/activate
 ```
+
 ### Getting Gemini API key
 Genemind uses Gemini 2.5 as LLM. You need an API key to connect to the LLM hosted by Google.
 
