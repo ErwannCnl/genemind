@@ -2,6 +2,8 @@
 
 **GeneMind** is a pipeline that leverages large language models (LLMs) to analyze a given group of genes within a specific research context.  
 
+This project was made in 1 day during the VIB Machine Learning and AI Summer School 2025.
+
 ## Installation
 
 GeneMind requires the **UV package manager**. You can install it following the instructions [here](https://docs.astral.sh/uv/#installation).  
