@@ -9,4 +9,6 @@ cd genemind
 uv python pin 3.11
 uv sync
 source .venv/bin/activate
+
+uv run main.py
 ```
