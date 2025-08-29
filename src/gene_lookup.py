@@ -135,3 +135,20 @@ def build_gene_proportion_lookup(
                 props[key] = prop
 
     return props
+
+def _format_popularity_block(counts_path: str, genes: list[str]) -> str:
+    """
+    Returns a newline-separated block like:
+    - TP53: 0.921
+    - EGFR: 0.403
+    """
+    lookup = build_gene_proportion_lookup(
+        counts_path,
+        case_insensitive=True,   # tolerate gene case
+    )
+    def fmt(v): return "NA" if v is None else f"{v:.3f}"
+    lines = []
+    for g in genes:
+        v = lookup.get(g.casefold())  # keys are casefolded when case_insensitive=True
+        lines.append(f"- {g}: {fmt(v)}")
+    return "\n".join(lines)
