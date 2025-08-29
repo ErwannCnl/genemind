@@ -18,3 +18,31 @@ def format_genes(gene_list):
         result.append("```")
         result.append("")  # blank line after each gene
     return "\n".join(result)
+
+def print_pydantic(model: BaseModel, title_field: str = None) -> str:
+    """
+    Pretty-print any Pydantic model in a structured format.
+    
+    Args:
+        model: Pydantic model instance
+        title_field: (optional) field name to use as the title (e.g. "gene_name")
+    """
+    result = []
+    
+    # Use title if available
+    if title_field and hasattr(model, title_field):
+        result.append(f"### {getattr(model, title_field)}")
+    else:
+        result.append(f"### {model.__class__.__name__}")
+    
+    result.append("```")
+    for field_name, field_value in model.model_dump().items():
+        # Handle lists
+        if isinstance(field_value, list):
+            value_str = "[" + ", ".join(map(str, field_value)) + "]"
+        else:
+            value_str = str(field_value)
+        result.append(f"{field_name}: {value_str}")
+    result.append("```")
+    
+    return "\n".join(result)
