@@ -10,10 +10,12 @@ dependencies = [
     "jupyter>=1.1.1",
     "langchain>=0.3.27",
     "langchain-google-genai>=2.1.10",
+    "markdown>=3.8.2",
     "matplotlib>=3.10.5",
     "mcp>=1.13.1",
     "numpy>=2.3.2",
     "pandas>=2.3.2",
     "pydantic>=2.11.7",
+    "reportlab>=4.4.3",
     "scipy>=1.16.1",
 ]
