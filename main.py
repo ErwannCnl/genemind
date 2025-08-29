@@ -1,6 +1,7 @@
 from pydantic import BaseModel, Field
 from dotenv import load_dotenv
 import os
+import sys
 
 # Load environment variables from .env file
 load_dotenv()
@@ -20,10 +21,12 @@ llm = init_chat_model(
 )
 
 # Canonical user input
-paragraph = (
+default_paragraph = (
     "I identified these five genes to be significantly more mutated than expected by chance in my cohort of human brain cancer patients: CCLX, TLR4, TLR2, IL1B. Do a GSEA"
 )
 
+paragraph = sys.argv[1] if len(sys.argv) > 1 else default_paragraph
+# print(paragraph)
 # Define Pydantic class for input genes and context
 class StudyExtraction(BaseModel):
     genes: List[str] = Field(
@@ -122,6 +125,8 @@ response = chain.invoke({"text": text, "input_g": parsed_input.genes, "context":
 
 print("got summary")
 from src.print_gene import texts_and_markdown_to_pdf
-
-texts_and_markdown_to_pdf([format_genes(output)], response, "gene_report_from_text.pdf")
+if parsed_input.GSEA:
+    texts_and_markdown_to_pdf([format_genes(output),gsea_string], response, "gene_report_from_text.pdf")
+else:
+    texts_and_markdown_to_pdf([format_genes(output)], response, "gene_report_from_text.pdf")
 print("done")
