@@ -55,6 +55,12 @@ Create in the root of this project a new file called `.env` and add the followin
 GOOGLE_API_KEY=YOUR_API_KEY
 ```
 
+or type
+
+```
+cat "GOOGLE_API_KEY=YOUR_API_KEY" > .env
+```
+
 ## Usage
 ```bash
 uv run main.py "your prompt as free text"
