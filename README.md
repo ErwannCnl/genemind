@@ -2,7 +2,7 @@
 
 **GeneMind** is a pipeline that leverages large language models (LLMs) to analyze a given group of genes within a specific research context.  
 
-This project was made in 1 day during the VIB Machine Learning and AI Summer School 2025.
+**Disclaimer**: This project was made in 1 day during the VIB Machine Learning and AI Summer School 2025.
 
 ## Installation (Linux)
 ### Install UV
@@ -87,5 +87,13 @@ When finished, this will create a new pdf file called `gene_report_from_text.pdf
 - Research context: **Cancer research**
 - Supported organisms: **Homo sapiens**
 
+> [!NOTE]
+> Currenlty supports up to 5 genes. Use more at own risk. BioMart might not like big API calls.
+
+> [!NOTE]
+> Sometimes the `main.py` script get stuck after the first step (after it printed `parsed input`). This means the BioMart API is taking a long time to respond. After ~5 minutes you probably won't get a result and it might better to cancel.
+> Fixes include chosing different genes or a lower number of input genes.
 ---
+
+
 
