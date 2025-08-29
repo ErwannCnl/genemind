@@ -5,7 +5,6 @@ from Bio import Entrez
 import xml.etree.ElementTree as ET
 import pandas as pd
 from collections import OrderedDict
-import pandas as pd
 
 # Let the llm decide what attributes it will querry according to the concept we gave him
 

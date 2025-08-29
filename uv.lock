@@ -176,6 +176,18 @@ wheels = [
 ]
 
 [[package]]
+name = "biomart"
+version = "0.9.2"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "requests" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/32/e1/4cf2bab581d3bd3f450ffd5e02ba2b6a696de169b63a7ebacfafb04b3425/biomart-0.9.2.tar.gz", hash = "sha256:a75e53b1bea4abae0b3a9deab389333ea00f2f88c75f66ab332002ee30862619", size = 8391, upload-time = "2017-01-22T18:08:15.358Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/d3/b7/684fabf2c8d695a5a85b65101405435611b78cbb6e013782bab7ed4b2e9a/biomart-0.9.2-py3-none-any.whl", hash = "sha256:69fd29b42efac99370951eed3f9ece9ae9b01868e85d104d9877f8cb99e7bd0f", size = 12408, upload-time = "2017-01-22T18:08:17.977Z" },
+]
+
+[[package]]
 name = "biopython"
 version = "1.85"
 source = { registry = "https://pypi.org/simple" }
@@ -588,6 +600,7 @@ name = "genemind"
 version = "0.1.0"
 source = { virtual = "." }
 dependencies = [
+    { name = "biomart" },
     { name = "biopython" },
     { name = "jupyter" },
     { name = "langchain" },
@@ -602,6 +615,7 @@ dependencies = [
 
 [package.metadata]
 requires-dist = [
+    { name = "biomart", specifier = ">=0.9.2" },
     { name = "biopython", specifier = ">=1.85" },
     { name = "jupyter", specifier = ">=1.1.1" },
     { name = "langchain", specifier = ">=0.3.27" },
