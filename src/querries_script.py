@@ -12,6 +12,16 @@ from collections import OrderedDict
 def biomart_query(attributes, filters=None, dataset=None,
                   host="https://www.ensembl.org",
                   formatter="TSV", header=True, unique_rows=True):
+    '''
+    Makes the biomart querries for each gene according to the biomart attributes in input.
+
+    - attributes : list of attributes
+    - filters : list of genes 
+    - dataset : could be from other species than human
+
+    Output :
+      - a string wich contains every data fetched for each gene
+    '''
     
     def build_xml():
         q = Element("Query", {
@@ -40,8 +50,10 @@ def biomart_query(attributes, filters=None, dataset=None,
 
 
 
-
 def parse_rows(tsv, headers):
+    '''
+    Short function that reads the string and make a list out of it
+    '''
     rows = []
     for line in tsv.strip().splitlines():
         cols = line.split("\t")
@@ -49,8 +61,17 @@ def parse_rows(tsv, headers):
     return rows
 
 
-
 def filter_rows(tsv, attributes:list):
+    '''    
+    According to the attributes chosed, some gens will have a lots of dupes.
+    This function makes sure that only the 5 more relevent ones are kept.
+
+    - tsv : str output from the biomart querry function
+    - attributes : list of the actual attributes used
+
+    Outputs :
+      - Restrained list of genes.
+    '''
     
     rows = parse_rows(tsv, headers=attributes)
 
@@ -62,6 +83,7 @@ def filter_rows(tsv, attributes:list):
         and r["go_linkage_type"] not in exclude_evidence
     ]
 
+    # Rank map of the most relevent attributes for "go_linkage_type"
     evidence_rank = {
         "IDA": 0, "IMP": 0, "IPI": 0, "IGI": 0, "IEP": 0, "EXP": 0,
         "IC": 1, "TAS": 1,
@@ -85,6 +107,7 @@ def filter_rows(tsv, attributes:list):
     def rank(r):
         return (evidence_rank.get(r["go_linkage_type"], 5), r["name_1006"])
 
+    # Select only the 5 most relevent raws according to the filters above
     K = 5
     final_rows = []
     for g, lst in by_gene.items():
@@ -94,6 +117,17 @@ def filter_rows(tsv, attributes:list):
     return final_rows
         
 def filter_attributes(proposed_attributes):
+    '''
+    This function was made to filter the attributes that the LLM would want to use according to the context
+    To make sure the potential hallucinations doesnt make the querry function fail.
+
+    - proposed_attributes : List of attributes proposed
+
+    Output :
+      - A list of possible attributes that can be given to the querry function
+    '''
+    
+    # Read the files of all relevent attributes
     possible_attributes = pd.read_csv("data/attributes.csv")["name"].to_list()
     
     final_attr = []
@@ -105,16 +139,28 @@ def filter_attributes(proposed_attributes):
 
 
 def call_querry_biomart(attributes, filters:dict, dataset:str="hsapiens_gene_ensembl"):
-    
+    '''
+    Filter the attributes, call the querry function, and returns the data fetched on biomart
+
+    - attributes : attributes
+    - filters : the list of genes
+    - dataset (optionnal) : if you want to fetch information from other species
+
+    Output :
+      - All the informations fetched from biomart in a list of dict, each dict contains information for a given genes and the attributes given
+    '''
     #attr = filter_attributes(proposed_attributes=attributes)
     attr = attributes
     
+    # Check if the gene name is actualy part of the attributes
     if "external_gene_name" not in attr:
         attr.append("external_gene_name")
 
-    
+    # List of attributes that generates lots of dupes    
     targets = ["go_id", "go_linkage_type", "name_1006", "namespace_1003"]
     if any(t in attr for t in targets):
+        
+        # Make sure every attribute to filter the dupes are in the list of attributes
         if "go_id" not in attr:
             attr.append("go_id")
         if "go_linkage_type" not in attr:
@@ -126,11 +172,13 @@ def call_querry_biomart(attributes, filters:dict, dataset:str="hsapiens_gene_ens
         if "enensembl_gene_id" not in attr:
             attr.append("ensembl_gene_id")
         
+        # Call the querry fun
         tsv = biomart_query(
             attributes=attr,
             filters=filters,
             dataset=dataset
         )
+        # Then filter the dupes
         final_rows = filter_rows(tsv, attr)
         return final_rows
     
