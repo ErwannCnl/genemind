@@ -65,7 +65,7 @@ Make sure your prompt includes:
 - Organism
 - How the data was obtained
 - Research context
-- Desired analysis (currently only GSEA is supported)
+- OPTIONAL: Desired analysis (currently only GSEA is supported)
 
 
 ### Prompt example
