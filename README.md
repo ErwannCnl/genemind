@@ -30,7 +30,7 @@ Then by clicking the "Create API key" button you will be able to generate a new 
 
 ### Verify that the API key is working
 
-Use the command from Gemini API documentation to verify that the API key is working.
+Use the command from Gemini API documentation to verify that the API key is working. Replace `GEMINI_API_KEY` on line 3 with your obtained API key.
 
 ```bash
 curl "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent" \
