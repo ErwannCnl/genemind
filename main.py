@@ -26,7 +26,7 @@ default_paragraph = (
 )
 
 paragraph = sys.argv[1] if len(sys.argv) > 1 else default_paragraph
-print(paragraph)
+# print(paragraph)
 # Define Pydantic class for input genes and context
 class StudyExtraction(BaseModel):
     genes: List[str] = Field(
